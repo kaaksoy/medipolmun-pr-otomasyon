@@ -210,19 +210,21 @@ const approveTemplate = (fullName, tabName, totalPayment, iban) => {
 
 <p>We are glad to inform you that your application as <strong>${tabName}</strong> for MEDIPOLMUN'27 has been approved by our Secretariat. To finalize your application and receive your allocation, you need to pay the application fee of <strong>${totalPayment} Turkish liras</strong>.</p>
 
-<p>If the necessary payment to complete the registration process is not made within <strong>three (3) days</strong>, your application will automatically be invalid.</p>
+<p>If the necessary payment to complete the registration process is not made within <strong>five (5) business days</strong>, your application will automatically be invalid.</p>
 
 <p>Please read the explanatory notes below.</p>
 
 <p><strong>EXPLANATORY NOTES:</strong></p>
 
-<p>After making your payment, <strong>you must send your bank receipt</strong> to financemedipolmun@gmail.com otherwise your application will not be completed and your payment will be considered invalid.</p>
+<ul>
+<li>After making your payment, <strong>you must send your bank receipt</strong> to financemedipolmun@gmail.com otherwise your application will not be completed and your payment will be considered invalid.</li>
 
-<p>While making your payment please leave the description section empty. When you are ready to send your bank receipt to financemedipolmun@gmail.com you can write your name and surname in the e-mail.</p>
+<li>While making your payment please leave the description section empty. When you are ready to send your bank receipt to financemedipolmun@gmail.com you can write your name and surname in the e-mail.</li>
 
-<p>Please note that the MEDIPOLMUN team does not guarantee any amount of refund on an occasion of withdrawal from the conference.</p>
+<li>Please note that the MEDIPOLMUN team does not guarantee any amount of refund on an occasion of withdrawal from the conference.</li>
 
-<p>Please make sure that you pay in full payment. The MEDIPOLMUN 2027 Team cannot be held liable for any costs occurring in transferring fees during the registration process.</p>
+<li>Please make sure that you pay in full payment. The MEDIPOLMUN 2027 Team cannot be held liable for any costs occurring in transferring fees during the registration process.</li>
+</ul>
 
 <p><strong>${iban}</strong></p>
 
@@ -247,19 +249,21 @@ const delegationApproveTemplate = (
 
 <p><strong>TOTAL PAYMENT: ${totalPayment}</strong> Turkish liras.</p>
 
-<p>If the necessary payment to complete the registration process is not made within <strong>three (3) days</strong>, your application will automatically be invalid.</p>
+<p>If the necessary payment to complete the registration process is not made within <strong>five (5) business days</strong>, your application will automatically be invalid.</p>
 
 <p>Please read the explanatory notes below.</p>
 
 <p><strong>EXPLANATORY NOTES:</strong></p>
 
-<p>After making your payment, <strong>you must send your bank receipt</strong> to financemedipolmun@gmail.com otherwise your application will not be completed and your payment will be considered invalid.</p>
+<ul>
+<li>After making your payment, <strong>you must send your bank receipt</strong> to financemedipolmun@gmail.com otherwise your application will not be completed and your payment will be considered invalid.</li>
 
-<p>While making your payment please leave the description section <strong>empty</strong>. When you are ready to send your bank receipt to financemedipolmun@gmail.com you can write your name and surname in the e-mail.</p>
+<li>While making your payment please leave the description section empty. When you are ready to send your bank receipt to financemedipolmun@gmail.com you can write your name and surname in the e-mail.</li>
 
-<p>Please note that MEDIPOLMUN team does not guarantee any amount of refund on an occasion of withdrawal from the conference.</p>
+<li>Please note that the MEDIPOLMUN team does not guarantee any amount of refund on an occasion of withdrawal from the conference.</li>
 
-<p>Please make sure that you pay in full payment. The MEDIPOLMUN 2027 Team cannot be held liable for any costs occurring in transferring fees during the registration process.</p>
+<li>Please make sure that you pay in full payment. The MEDIPOLMUN 2027 Team cannot be held liable for any costs occurring in transferring fees during the registration process.</li>
+</ul>
 
 <p><strong>${iban}</strong></p>
 
@@ -277,29 +281,27 @@ const staffApproveTemplate = (fullName, totalPayment, iban) => {
 
 <p>We are glad to inform you that your application as <strong>Administrative Staff</strong> for MEDIPOLMUN'27 has been approved by our Secretariat. To finalize your application and receive your allocation, you need to pay the application fee of <strong>${totalPayment} Turkish liras</strong>.</p>
 
-<p>If the necessary payment to complete the registration process is not made within <strong>three (3) days</strong>, your application will automatically be invalid.</p>
+<p>If the necessary payment to complete the registration process is not made within <strong>five (5) business days</strong>, your application will automatically be invalid.</p>
 
 <p>Please read the explanatory notes below.</p>
 
 <p><strong>EXPLANATORY NOTES:</strong></p>
 
-<p>After making your payment, <strong>you must send your bank receipt</strong> to financemedipolmun@gmail.com otherwise your application will not be completed and your payment will be considered invalid.</p>
+<ul>
+<li>After making your payment, <strong>you must send your bank receipt</strong> to financemedipolmun@gmail.com otherwise your application will not be completed and your payment will be considered invalid.</li>
 
-<p>While making your payment please leave the description section empty. When you are ready to send your bank receipt to financemedipolmun@gmail.com you can write your name and surname in the e-mail.</p>
+<li>While making your payment please leave the description section empty. When you are ready to send your bank receipt to financemedipolmun@gmail.com you can write your name and surname in the e-mail.</li>
 
-<p>Please note that the MEDIPOLMUN team does not guarantee any amount of refund on an occasion of withdrawal from the conference.</p>
+<li>Please note that the MEDIPOLMUN team does not guarantee any amount of refund on an occasion of withdrawal from the conference.</li>
 
-<p>Please make sure that you pay in full payment. The MEDIPOLMUN 2027 Team cannot be held liable for any costs occurring in transferring fees during the registration process.</p>
+<li>Please make sure that you pay in full payment. The MEDIPOLMUN 2027 Team cannot be held liable for any costs occurring in transferring fees during the registration process.</li>
+</ul>
 
 <p><strong>${iban}</strong></p>
 
 <p>If you have any further questions, please do not hesitate to contact our team or you may reach the latest news about our conference through our social media accounts.</p>
 
 <p><strong>Instagram: medipolmun</strong></p>
-
-<p>Sincerely yours,<br>
-<em><strong>Özgür ÖZKUL &amp; Zümra Damla DEMİRCİ</strong></em><br>
-<em>MEDIPOLMUN'27 Co-Heads of PR Team</em></p>
 `
 }
 
@@ -309,29 +311,27 @@ const pressApproveTemplate = (fullName, totalPayment, iban) => {
 
 <p>We are glad to inform you that your application as <strong>Press Member</strong> for MEDIPOLMUN'27 has been approved by our Secretariat. To finalize your application and receive your allocation, you need to pay the application fee of <strong>${totalPayment} Turkish liras</strong>.</p>
 
-<p>If the necessary payment to complete the registration process is not made within <strong>three (3) days</strong>, your application will automatically be invalid.</p>
+<p>If the necessary payment to complete the registration process is not made within <strong>five (5) business days</strong>, your application will automatically be invalid.</p>
 
 <p>Please read the explanatory notes below.</p>
 
 <p><strong>EXPLANATORY NOTES:</strong></p>
 
-<p>After making your payment, <strong>you must send your bank receipt</strong> to financemedipolmun@gmail.com otherwise your application will not be completed and your payment will be considered invalid.</p>
+<ul>
+<li>After making your payment, <strong>you must send your bank receipt</strong> to financemedipolmun@gmail.com otherwise your application will not be completed and your payment will be considered invalid.</li>
 
-<p>While making your payment please leave the description section empty. When you are ready to send your bank receipt to financemedipolmun@gmail.com you can write your name and surname in the e-mail.</p>
+<li>While making your payment please leave the description section empty. When you are ready to send your bank receipt to financemedipolmun@gmail.com you can write your name and surname in the e-mail.</li>
 
-<p>Please note that the MEDIPOLMUN team does not guarantee any amount of refund on an occasion of withdrawal from the conference.</p>
+<li>Please note that the MEDIPOLMUN team does not guarantee any amount of refund on an occasion of withdrawal from the conference.</li>
 
-<p>Please make sure that you pay in full payment. The MEDIPOLMUN 2027 Team cannot be held liable for any costs occurring in transferring fees during the registration process.</p>
+<li>Please make sure that you pay in full payment. The MEDIPOLMUN 2027 Team cannot be held liable for any costs occurring in transferring fees during the registration process.</li>
+</ul>
 
 <p><strong>${iban}</strong></p>
 
 <p>If you have any further questions, please do not hesitate to contact our team or you may reach the latest news about our conference through our social media accounts.</p>
 
 <p><strong>Instagram: medipolmun</strong></p>
-
-<p>Sincerely yours,<br>
-<em><strong>Özgür ÖZKUL &amp; Zümra Damla DEMİRCİ</strong></em><br>
-<em>MEDIPOLMUN'27 Co-Heads of PR Team</em></p>
 `
 }
 
@@ -365,16 +365,13 @@ const paymentReminderTemplate = (fullName, tabName) => {
 
 <p>As a valued applicant of MedipolMUN'27, we would like to remind you that there is a pending payment related to your application as ${tabName} for our conference. Despite our previous reminder, we have not yet received the payment that you must complete.</p>
 
-<p>As the MedipolMUN'27 team, we understand that unforeseen circumstances may have caused this delay. However, we kindly ask that you complete the outstanding payment within the <strong>next 2 days</strong>. Please be aware that this payment is now overdue and requires immediate action!</p>
+<p>As the MedipolMUN'27 team, we understand that unforeseen circumstances may have caused this delay. However, we kindly ask that you complete the outstanding payment within the <strong>next 3 business days</strong>. Please be aware that this payment is now overdue and requires immediate action!</p>
 
 <p>Once the transaction is completed, <strong>please send a copy of your payment receipt to financemedipolmun@gmail.com</strong>. This will help us maintain accurate records and prevent any future discrepancies. Note that the payment process will not be finalized without the receipt.</p>
 
 <p>Also, please keep in mind that MedipolMUN'27 has a no-refund policy.</p>
 
 <p>If you have any questions or need assistance regarding the payment, please feel free to reach out to us. We're always here to help.</p>
-
-<p>Kindest Regards,<br>
-<strong>MedipolMUN'27 Finance Team</strong></p>
 `
 }
 
@@ -387,9 +384,6 @@ const paymentReceivedTemplate = (fullName, tabName) => {
 <p>Please check your inbox before the conference for additional details.</p>
 
 <p>For any financial questions, feel free to contact us.</p>
-
-<p>Sincerely,<br>
-<em>MEDIPOLMUN'27 Finance Team</em></p>
 `
 }
 
