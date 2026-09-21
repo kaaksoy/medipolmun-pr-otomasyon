@@ -208,13 +208,20 @@
 const TEST_MODE = false; // false olursa gerçekten çalışır
 const TEST_EMAIL = "mehmetkaanaksoy13@gmail.com" // değiştireblirisin
 
+// bir değerin boş/silinmiş/null/undefined sayılıp sayılmayacağını kontrol eder
+function isMissing(value) {
+  if (value === null || value === undefined) return true;
+  if (typeof value === "string" && value.trim() === "") return true;
+  return false;
+}
+
 // mail schedule /// değişiklik yapılınca çalışıcak
 function scheduleEmail(event) {         // event -> triggerdan dönen veri
-  const range = event.range;            // değişen aralık (tek hücre ya da çoklu paste olabilir)
-  const sheet = range.getSheet();       // hücrenin bulunduğu tab
+  const range = event.range;            // değişen aralık
+  const sheet = range.getSheet();
 
   const startCol = range.getColumn();
-  const numCols = range.getNumColumns();
+  const endCol = startCol + range.getNumColumns() - 1;
   const startRow = range.getRow();
   const numRows = range.getNumRows();
 
@@ -224,64 +231,82 @@ function scheduleEmail(event) {         // event -> triggerdan dönen veri
   STATUS TIMESTAMP -> D | 4
   */
 
-  // B sütunu (2), değişen aralığın içinde mi diye kontrol et
-  // (tek hücre değişikliğinde de, çoklu paste'te de doğru çalışır)
-  if (2 < startCol || 2 > (startCol + numCols - 1)) return;
+  const statusEdited = startCol <= 2 && endCol >= 2;   // B aralığın içinde mi
+  const scheduleEdited = startCol <= 3 && endCol >= 3; // C aralığın içinde mi
 
-  // B sütunundaki güncel değerleri tek seferde oku (paste sonrası hücreler zaten yazılmış durumda)
+  if (!statusEdited && !scheduleEdited) return;
+
   const statusValues = sheet.getRange(startRow, 2, numRows, 1).getValues();
+  const scheduleValues = sheet.getRange(startRow, 3, numRows, 1).getValues();
+
+  let sendNow = false;
 
   for (let i = 0; i < numRows; i++) {
     const row = startRow + i;
 
-    if (row === 1) continue;            // başlık satırını pas geç
+    if (row === 1) continue;            // başlık satırı
 
-    const value = statusValues[i][0];   // bu satırdaki B hücresinin güncel değeri
+    const value = statusValues[i][0];
 
-    if (value === "" || value === null || value === undefined) continue; // hücre silindiyse atla
+    if (value === "" || value === null || value === undefined) continue;
 
-    // timestamp /// pendingi atlamadan önce olması önemli
+    // timestamp sadece B değiştiğinde güncellensin
+    if (statusEdited) {
+      const now = new Date();
+      sheet.getRange(row, 4).setValue(now.toLocaleString("tr-TR", {
+        year: "numeric",
+        month: "2-digit",
+        day: "2-digit",
+        hour: "2-digit",
+        minute: "2-digit",
+        second: "2-digit",
+        hour12: false
+      }));
+    }
+
+    if (value === "Pending") continue;  // pendingi göndermeye gerek yok
+
+    const scheduleValue = String(scheduleValues[i][0] || "").trim().toUpperCase();
+
+    // C'ye SEND NOW yazıldıysa: schedule hesaplama, hemen gönder
+    if (scheduleEdited && scheduleValue === "SEND NOW") {
+      sendNow = true;
+      continue;                          // C'yi ezme, sendEmails "SENT" yazacak
+    }
+
+    if (!statusEdited) continue;         // sadece C değişti ve SEND NOW değilse dokunma
+
+    // en yakın schedule time ı seç
     const now = new Date();
     const time = now.toLocaleTimeString("tr-TR", {
       hour: "2-digit",
       minute: "2-digit",
       hour12: false
     }); // HH:MM
-    sheet.getRange(row, 4).setValue(now.toLocaleString("tr-TR", { // Timestamp verisi
-      year: "numeric",
-      month: "2-digit",
-      day: "2-digit",
-      hour: "2-digit",
-      minute: "2-digit",
-      second: "2-digit",
-      hour12: false
-    })); // DD:MM:YYYY HH:MM:SS şeklinde döner
 
-    if (value === "Pending") continue;  // pendingi göndermeye gerek yok
-
-    // en yakın schedule time ı seç /// pendingi atlamadan sonra olması önemli
     const minutes = (Number(time.split(":")[0]) * 60) + Number(time.split(":")[1]);
 
     var scheduleTime = "";
 
-    if (minutes >= (18 * 60)) {          // saat 18:00 veya sonrasıysa ertesi gün 10:00 da yollasın
+    if (minutes >= (18 * 60)) {
       scheduleTime = "TODAY 10:00";
-    } else if (minutes < (10 * 60)) {    // saat 10:00 dan küçükse bugün 10:00 da yollasın
+    } else if (minutes < (10 * 60)) {
       scheduleTime = "TODAY 10:00";
-    } else if (minutes < (14 * 60)) {    // saat 14:00 dan küçükse bugün 14:00 da yollasın
+    } else if (minutes < (14 * 60)) {
       scheduleTime = "TODAY 14:00";
-    } else {                             // 14:00 - 18:00 arası
+    } else {
       scheduleTime = "TODAY 18:00";
     }
 
     sheet.getRange(row, 3).setValue(scheduleTime);
   }
+
+  if (sendNow) sendEmails("SEND NOW");   // döngü bitince tek seferde gönder
 }
 
 // main function
 function sendEmails(time) {
   const spreadsheet = SpreadsheetApp.getActiveSpreadsheet();
-
   const allowedSheetNames = ["IndividualDelegate", "Delegation", "Admin", "Press", "InternationalDelegate", "AcademicTeam"];
 
   const sheets = allowedSheetNames
@@ -308,7 +333,26 @@ function sendEmails(time) {
       const tab = sheet.getName();  // koddan
       const fee = rowValues[21];  // V
       const iban = rowValues[22];  // W
-      const perPersonFee = tab === "Delegation" ? rowValues[23] : null; // X
+      const perPersonFee = tab === "Delegation" ? rowValues[23] : null; 
+
+      // göndermeden önce kontrol
+      const requiredFields = { status, name, email, fee, iban };
+      if (tab === "Delegation") {
+        requiredFields.perPersonFee = perPersonFee;
+      }
+
+      const missingFields = Object.keys(requiredFields).filter((key) =>
+        isMissing(requiredFields[key])
+      );
+
+      if (missingFields.length > 0) {
+        console.error(
+          `Satır ${rowNumber} (${tab}) eksik veri nedeniyle atlandı: ${missingFields.join(", ")}`
+        );
+        sheet.getRange(rowNumber, 3).setValue("MISSING DATA");
+        return; // bu satırı gönderme, bir sonraki satıra geç
+      }
+      // kontrol sonu
 
       const recipient = TEST_MODE ? TEST_EMAIL : email;
 
@@ -316,81 +360,34 @@ function sendEmails(time) {
       var htmlBody = ""
 
       try {
-        switch (status) {
-          case "Approved":
-            subject = "Regarding to your application to MedipolMUN'26";
-            break;
-          case "Rejected":
-            subject = "Application has been Rejected";
-            break;
-          case "Dropped":
-            subject = "Evaluation Result of the Application: Dropped";
-            break;
-          case "Reminder":
-            subject = "Payment Reminder – MedipolMUN'26";
-            break;
-          case "PaymentReceived":
-            subject = "Payment Received – MedipolMUN'26";
-            break;
-          case "Pending": // Pending yapılmış bir veri için schedule ayarlanmış
-            console.error("Pending yapılmış bir veri için schedule ayarlanmış");
-            break;
-          default:
-            throw new Error('"subject" switch/case inde hata: bilinmeyen status "' + status + '"');
-        }
+        const signature = getSignatureBlob();
 
-        switch (status) {
-          case "Approved":
-            // ayrı approve templateleri için switch
-            switch (tab) {
-              case "IndividualDelegate":
-              case "InternationalDelegate":
-              case "AcademicTeam":
-                htmlBody = approveTemplate(name, tab, fee, iban);
-                break;
-              case "Delegation":
-                htmlBody = delegationApproveTemplate(name, fee, perPersonFee, iban);
-                break;
-              case "Admin":
-                htmlBody = staffApproveTemplate(name, fee, iban);
-                break;
-              case "Press":
-                htmlBody = pressApproveTemplate(name, fee, iban);
-                break;
-              default:
-                throw new Error('"approve" switch/case inde hata: bilinmeyen tab "' + tab + '"');
-            }
-            break;
+        subject = getSubject(status);
+        htmlBody = getHtmlBody(status, tab, name, fee, perPersonFee, iban);
 
-          case "Rejected":
-            htmlBody = rejectedTemplate(name, tab);
-            break;
-          case "Dropped":
-            htmlBody = droppedTemplate(name, tab);
-            break;
-          case "Reminder":
-            htmlBody = paymentReminderTemplate(name, tab);
-            break;
-          case "PaymentReceived":
-            htmlBody = paymentReceivedTemplate(name, tab);
-            break;
-          case "Pending": // Pending yapılmış bir veri için schedule ayarlanmış
-            console.error("Pending yapılmış bir veri için schedule ayarlanmış");
-            return;
-          default:
-            throw new Error('"body" switch/case inde hata: bilinmeyen status "' + status + '"');
-        }
+        if (htmlBody === null) return; // Pending durumunda mail gönderme
+        if (subject === null) return; // Pending durumunda mail gönderme
+
+        subject += randomInvisible(5)
+        htmlBody += `
+    <br>
+    <img src="cid:signature" width="300" style="height:auto; display:block;">
+    <span>${randomInvisible(50)}</span>
+    `;
 
         MailApp.sendEmail({
           to: recipient,
           subject,
           htmlBody,
-          body: htmlBody.replace(/<[^>]*>/g, "")
+          body: htmlBody.replace(/<[^>]*>/g, ""),
+          inlineImages: {
+            signature: signature
+          }
         });
-        sheet.getRange(rowNumber, 3).setValue("SENT"); // sadece başarılıysa SENT
+        sheet.getRange(rowNumber, 3).setValue("SENT");
       } catch (e) {
         console.error(e);
-        sheet.getRange(rowNumber, 3).setValue("BUG"); // hata olursa BUG yaz, tekrar denenebilsin
+        sheet.getRange(rowNumber, 3).setValue("BUG");
       }
     });
   });
