@@ -231,7 +231,7 @@ function getSubject(status) {
       subject = "Regarding to your application to MedipolMUN'27";
       break;
     case "Rejected":
-      subject = "Application has been Rejected";
+      subject = "Application Has Been Rejected";
       break;
     case "Dropped":
       subject = "Evaluation Result of the Application: Dropped";
@@ -242,6 +242,9 @@ function getSubject(status) {
     case "PaymentReceived":
       subject = "Payment Received - MedipolMUN'27";
       break;
+    case "Received":
+      subject = "YOUR APPLICATION HAS BEEN RECEIVED!"
+      break;
     case "Pending": // Pending yapılmış bir veri için schedule ayarlanmış
       console.error("Pending yapılmış bir veri için schedule ayarlanmış");
       return null;
@@ -251,7 +254,7 @@ function getSubject(status) {
 
   return subject;
 }
-                                // mail içeriği
+// mail içeriği
 function getHtmlBody(status, tab, name, fee, perPersonFee, iban) {
   var htmlBody = "";
 
@@ -290,6 +293,9 @@ function getHtmlBody(status, tab, name, fee, perPersonFee, iban) {
     case "PaymentReceived":
       htmlBody = paymentReceivedTemplate(name, tab);
       break;
+    case "Received":
+      htmlBody = receivedTemplate(name, tab);
+      break;
     case "Pending": // Pending yapılmış bir veri için schedule ayarlanmış
       console.error("Pending yapılmış bir veri için schedule ayarlanmış");
       return null;
@@ -299,3 +305,14 @@ function getHtmlBody(status, tab, name, fee, perPersonFee, iban) {
 
   return htmlBody;
 }
+
+function trimIBAN(iban) {
+  return iban
+    .split("#")
+    .map((part, index) => (index === 0 ? part.replace(/ /g, "") : part))
+    .join("<br>");
+}
+
+
+
+
