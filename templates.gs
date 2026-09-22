@@ -226,11 +226,13 @@ const approveTemplate = (fullName, tabName, totalPayment, iban) => {
 <li>Please make sure that you pay in full payment. The MEDIPOLMUN 2027 Team cannot be held liable for any costs occurring in transferring fees during the registration process.</li>
 </ul>
 
-<p><strong>${iban}</strong></p>
+<p><strong>${trimIBAN(iban)}</strong></p>
 
 <p>If you have any further questions, please do not hesitate to contact our team or you may reach the latest news about our conference through our social media accounts.</p>
 
 <p><strong>Instagram: medipolmun</strong></p>
+
+<p><strong>Best Regards,</strong></p>
 `
 }
 
@@ -265,13 +267,15 @@ const delegationApproveTemplate = (
 <li>Please make sure that you pay in full payment. The MEDIPOLMUN 2027 Team cannot be held liable for any costs occurring in transferring fees during the registration process.</li>
 </ul>
 
-<p><strong>${iban}</strong></p>
+<p><strong>${trimIBAN(iban)}</strong></p>
 
 <p>After your payment is completed and confirmed, a separate email will be sent to guide you through the accommodation payment process.</p>
 
 <p>If you have any further questions, please do not hesitate to contact our team or you may reach the latest news about our conference through our social media accounts.</p>
 
 <p><strong>Instagram: medipolmun</strong></p>
+
+<p><strong>Best Regards,</strong></p>
 `
 }
 
@@ -297,11 +301,13 @@ const staffApproveTemplate = (fullName, totalPayment, iban) => {
 <li>Please make sure that you pay in full payment. The MEDIPOLMUN 2027 Team cannot be held liable for any costs occurring in transferring fees during the registration process.</li>
 </ul>
 
-<p><strong>${iban}</strong></p>
+<p><strong>${trimIBAN(iban)}</strong></p>
 
 <p>If you have any further questions, please do not hesitate to contact our team or you may reach the latest news about our conference through our social media accounts.</p>
 
 <p><strong>Instagram: medipolmun</strong></p>
+
+<p><strong>Best Regards,</strong></p>
 `
 }
 
@@ -327,11 +333,13 @@ const pressApproveTemplate = (fullName, totalPayment, iban) => {
 <li>Please make sure that you pay in full payment. The MEDIPOLMUN 2027 Team cannot be held liable for any costs occurring in transferring fees during the registration process.</li>
 </ul>
 
-<p><strong>${iban}</strong></p>
+<p><strong>${trimIBAN(iban)}</strong></p>
 
 <p>If you have any further questions, please do not hesitate to contact our team or you may reach the latest news about our conference through our social media accounts.</p>
 
 <p><strong>Instagram: medipolmun</strong></p>
+
+<p><strong>Best Regards,</strong></p>
 `
 }
 
@@ -342,6 +350,8 @@ const receivedTemplate = (fullName, tabName) => {
 <p>We have successfully received your application for MEDIPOLMUN 2027. You will be informed about the result of your ${tabName} application after the assessment period for the applications starts. Meanwhile, please check your inbox as well as the junk/spam folders for future notifications from our team.</p>
 
 <p>In case of a mistake or problem with your application, please contact us via an e-mail to medipolmunpr@gmail.com.</p>
+
+<p><strong>Best Regards,</strong></p>
 `
 }
 
@@ -354,6 +364,8 @@ const rejectedTemplate = (fullName, tabName) => {
 <p>Since the unexpected high application numbers and the competitiveness in the qualifications of the applicants, we are not able to offer positions to each applicant. We are proud that we can attract excellent applicants such as yourself. We hope to work with you in the future and wish you the very best.</p>
 
 <p>If you have any further questions, please do not hesitate to contact our team.</p>
+
+<p><strong>Best Regards,</strong></p>
 `
 }
 
@@ -372,6 +384,8 @@ const paymentReminderTemplate = (fullName, tabName) => {
 <p>Also, please keep in mind that MedipolMUN'27 has a no-refund policy.</p>
 
 <p>If you have any questions or need assistance regarding the payment, please feel free to reach out to us. We're always here to help.</p>
+
+<p><strong>Best Regards,</strong></p>
 `
 }
 
@@ -384,6 +398,8 @@ const paymentReceivedTemplate = (fullName, tabName) => {
 <p>Please check your inbox before the conference for additional details.</p>
 
 <p>For any financial questions, feel free to contact us.</p>
+
+<p><strong>Best Regards,</strong></p>
 `
 }
 
@@ -396,5 +412,7 @@ const droppedTemplate = (fullName, tabName) => {
 <p>We would like to see you among us in our further conferences.</p>
 
 <p>If you have any questions please do not hesitate to contact us, please stay tuned in our Instagram account @medipolmun</p>
+
+<p><strong>Best Regards,</strong></p>
 `
 }
